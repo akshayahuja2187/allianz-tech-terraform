@@ -14,17 +14,18 @@ resource "azurerm_subnet" "jenkins" {
   name                 = "jenkins-subnet"
   resource_group_name  = azurerm_resource_group.jenkins.name
   virtual_network_name = azurerm_virtual_network.jenkins.name
-  address_prefixes     = "10.0.0.0/24"
+  address_prefixes     = ["10.0.0.0/24"]
 }
 
 resource "azurerm_network_interface" "jenkins" {
-  name                 = "jenkins-nic"
-  resource_group_name  = azurerm_resource_group.jenkins.name
-  virtual_network_name = azurerm_virtual_network.jenkins.name
-  subnet_name          = azurerm_subnet.jenkins.name
+  name                = "jenkins-nic"
+  resource_group_name = azurerm_resource_group.jenkins.name
+  location            = var.location
+  subnet_id           = azurerm_subnet.jenkins.id
   ip_configuration {
-    name                 = "jenkins-ip-config"
-    public_ip_address_id = azurerm_public_ip.jenkins.id
+    name                          = "jenkins-ip-config"
+    public_ip_address_id          = azurerm_public_ip.jenkins.id
+    private_ip_address_allocation = "Dynamic"
   }
 }
 
@@ -54,18 +55,7 @@ resource "azurerm_virtual_machine" "jenkins" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
-}
-
-resource "azurerm_linux_virtual_machine_extension" "jenkins" {
-  name                  = "jenkins"
-  resource_group_name   = azurerm_resource_group.jenkins.name
-  virtual_machine_name  = azurerm_virtual_machine.jenkins.name
-  publisher             = "Canonical"
-  offer                 = "UbuntuServer"
-  sku                   = "18.04-LTS"
-  version               = "latest"
-  type                  = "CustomScript"
-  script_source_content = <<EOF
+  custom_script_source_content = <<EOF
 #!/bin/bash
 
 # Install Jenkins
