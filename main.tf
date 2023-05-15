@@ -41,9 +41,9 @@ resource "azurerm_virtual_machine" "jenkins" {
   name                  = "jenkins"
   resource_group_name   = azurerm_resource_group.jenkins.name
   location              = var.location
-  size                  = "Standard_B1ls"
+  vm_size               = "Standard_B1ls"
   network_interface_ids = [azurerm_network_interface.jenkins.id]
-  os_disk {
+  storage_os_disk {
     name         = "jenkins-os-disk"
     caching      = "ReadWrite"
     os_type      = "Linux"
