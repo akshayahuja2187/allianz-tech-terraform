@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "jenkins" {
-  name = "jenkins-rg"
+  name     = "jenkins-rg"
   location = var.location
 }
 
