@@ -21,6 +21,7 @@ resource "azurerm_network_interface" "jenkins" {
   name                = "jenkins-nic"
   resource_group_name = azurerm_resource_group.jenkins.name
   location            = var.location
+  subnet_id           = azurerm_subnet.jenkins.id
   ip_configuration {
     name                          = "jenkins-ip-config"
     private_ip_address_allocation = "Dynamic"
