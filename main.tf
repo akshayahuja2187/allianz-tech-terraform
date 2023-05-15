@@ -21,13 +21,13 @@ resource "azurerm_network_interface" "jenkins" {
   name                = "jenkins-nic"
   resource_group_name = azurerm_resource_group.jenkins.name
   location            = var.location
-  subnet_id           = azurerm_subnet.jenkins.id
   ip_configuration {
     name                          = "jenkins-ip-config"
-    public_ip_address_id          = azurerm_public_ip.jenkins.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.jenkins.id
   }
 }
+
 
 resource "azurerm_public_ip" "jenkins" {
   name                = "jenkins-public-ip"
