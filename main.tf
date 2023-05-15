@@ -57,7 +57,7 @@ resource "azurerm_virtual_machine" "jenkins" {
     version   = "latest"
   }
   os_profile {
-    computer_name = "my-jenkins-vm"
+    computer_name  = "my-jenkins-vm"
     admin_username = "admin"
     admin_password = "password"
   }
