@@ -48,7 +48,7 @@ resource "azurerm_virtual_machine" "jenkins" {
     caching       = "ReadWrite"
     os_type       = "Linux"
     disk_size_gb  = 30
-    create_option = "Managed"
+    create_option = "Empty"
   }
   storage_image_reference {
     publisher = "Canonical"
