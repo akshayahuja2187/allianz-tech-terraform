@@ -59,7 +59,7 @@ resource "azurerm_virtual_machine" "jenkins" {
   os_profile {
     computer_name  = "my-jenkins-vm"
     admin_username = "akjenkinsadmin"
-    admin_password = "akjenkinsadmin"
+    admin_password = "Welcom@jenkins21"
   }
 
   os_profile_linux_config {
