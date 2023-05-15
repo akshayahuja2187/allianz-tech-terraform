@@ -42,7 +42,7 @@ resource "azurerm_virtual_machine" "jenkins" {
   location              = var.location
   vm_size               = "Standard_B1ls"
   network_interface_ids = [azurerm_network_interface.jenkins.id]
-  os_disk {
+  storage_os_disk {
     name         = "jenkins-os-disk"
     caching      = "ReadWrite"
     os_type      = "Linux"
@@ -54,17 +54,4 @@ resource "azurerm_virtual_machine" "jenkins" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
-  custom_script_source_content = <<EOF
-#!/bin/bash
-
-# Install Jenkins
-sudo apt-get update
-sudo apt-get install -y jenkins
-
-# Start Jenkins
-sudo service jenkins start
-
-# Open Jenkins in a web browser
-echo "http://$(hostname):8080" >> /etc/motd
-EOF
 }
