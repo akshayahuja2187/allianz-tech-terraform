@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "jenkins" {
-  name     = "jenkins-rg"
+  name = "jenkins-rg"
   location = var.location
 }
 
@@ -28,7 +28,6 @@ resource "azurerm_network_interface" "jenkins" {
   }
 }
 
-
 resource "azurerm_public_ip" "jenkins" {
   name                = "jenkins-public-ip"
   resource_group_name = azurerm_resource_group.jenkins.name
@@ -43,7 +42,7 @@ resource "azurerm_virtual_machine" "jenkins" {
   location              = var.location
   vm_size               = "Standard_B1ls"
   network_interface_ids = [azurerm_network_interface.jenkins.id]
-  storage_os_disk {
+  os_disk {
     name         = "jenkins-os-disk"
     caching      = "ReadWrite"
     os_type      = "Linux"
