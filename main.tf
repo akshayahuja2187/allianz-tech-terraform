@@ -59,10 +59,8 @@ resource "azurerm_virtual_machine" "jenkins" {
   os_profile {
     computer_name  = "my-jenkins-vm"
     admin_username = "admin"
-    admin_password = "password"
     os_profile_linux_config {
-      disable_password_authentication = true
+      disable_password_authentication = false
     }
   }
-  
 }
