@@ -56,4 +56,9 @@ resource "azurerm_virtual_machine" "jenkins" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
+  os_profile {
+    computer_name = "my-jenkins-vm"
+    admin_username = "admin"
+    admin_password = "password"
+  }
 }
