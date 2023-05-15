@@ -17,7 +17,3 @@ variable "tenant_id" {
 variable "location" {
   type = string
 }
-
-variable "jenkins_password" {
-  type = string
-}

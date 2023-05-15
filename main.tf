@@ -14,7 +14,7 @@ resource "azurerm_subnet" "jenkins" {
   name                 = "jenkins-subnet"
   resource_group_name  = azurerm_resource_group.jenkins.name
   virtual_network_name = azurerm_virtual_network.jenkins.name
-  address_prefix       = "10.0.0.0/24"
+  address_prefixes     = "10.0.0.0/24"
 }
 
 resource "azurerm_network_interface" "jenkins" {
@@ -33,6 +33,7 @@ resource "azurerm_public_ip" "jenkins" {
   resource_group_name = azurerm_resource_group.jenkins.name
   location            = var.location
   sku                 = "Standard"
+  allocation_method   = "Static"
 }
 
 resource "azurerm_virtual_machine" "jenkins" {
@@ -55,10 +56,26 @@ resource "azurerm_virtual_machine" "jenkins" {
   }
 }
 
-resource "azurerm_jenkins_server" "jenkins" {
-  name                = "jenkins"
-  resource_group_name = azurerm_resource_group.jenkins.name
-  virtual_machine_id  = azurerm_virtual_machine.jenkins.id
-  admin_username      = "admin"
-  admin_password      = var.jenkins_password
+resource "azurerm_linux_virtual_machine_extension" "jenkins" {
+  name                  = "jenkins"
+  resource_group_name   = azurerm_resource_group.jenkins.name
+  virtual_machine_name  = azurerm_virtual_machine.jenkins.name
+  publisher             = "Canonical"
+  offer                 = "UbuntuServer"
+  sku                   = "18.04-LTS"
+  version               = "latest"
+  type                  = "CustomScript"
+  script_source_content = <<EOF
+#!/bin/bash
+
+# Install Jenkins
+sudo apt-get update
+sudo apt-get install -y jenkins
+
+# Start Jenkins
+sudo service jenkins start
+
+# Open Jenkins in a web browser
+echo "http://$(hostname):8080" >> /etc/motd
+EOF
 }
