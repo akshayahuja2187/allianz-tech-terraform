@@ -43,10 +43,11 @@ resource "azurerm_virtual_machine" "jenkins" {
   vm_size               = "Standard_B1ls"
   network_interface_ids = [azurerm_network_interface.jenkins.id]
   storage_os_disk {
-    name         = "jenkins-os-disk"
-    caching      = "ReadWrite"
-    os_type      = "Linux"
-    disk_size_gb = 30
+    name          = "jenkins-os-disk"
+    caching       = "ReadWrite"
+    os_type       = "Linux"
+    disk_size_gb  = 30
+    create_option = "Copy"
   }
   storage_image_reference {
     publisher = "Canonical"
