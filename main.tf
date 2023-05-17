@@ -67,3 +67,47 @@ resource "azurerm_virtual_machine" "jenkins" {
   }
 }
 
+resource "azurerm_network_security_group" "jenkins" {
+  name                = "jenkins-nsg"
+  resource_group_name = azurerm_resource_group.jenkins.name
+  location            = var.location
+
+  security_rule {
+    name                       = "jenkins-ssh-rule"
+    priority                   = 100
+    direction                  = "Inbound"
+    protocol                   = "TCP"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_network_security_rule" "jenkins_https" {
+  name                        = "jenkins-https"
+  resource_group_name         = azurerm_resource_group.jenkins.name
+  location                    = var.location
+  network_security_group_name = azurerm_network_security_group.jenkins.name
+  priority                    = 101
+  direction                   = "Inbound"
+  protocol                    = "TCP"
+  source_port_range           = "*"
+  destination_port_range      = "443"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+}
+
+resource "azurerm_network_security_rule" "jenkins_http" {
+  name                        = "jenkins-http"
+  resource_group_name         = azurerm_resource_group.jenkins.name
+  location                    = var.location
+  network_security_group_name = azurerm_network_security_group.jenkins.name
+  priority                    = 102
+  direction                   = "Inbound"
+  protocol                    = "TCP"
+  source_port_range           = "*"
+  destination_port_range      = "80"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+}
