@@ -1,8 +1,8 @@
 provider "azurerm" {
-  subscription_id            = var.subscription_id
-  client_id                  = var.client_id
-  client_secret              = var.client_secret
-  tenant_id                  = var.tenant_id
+  subscription_id            = ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  tenant_id                  = ${{ secrets.AZURE_TENANT_ID }}
+  client_id                  = ${{ secrets.AZURE_CLIENT_ID }}
+  client_secret              = ${{ secrets.AZURE_CLIENT_SECRET }}
   skip_provider_registration = true
   features {}
 }
