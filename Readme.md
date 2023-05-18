@@ -21,3 +21,4 @@ sudo apt-get install kubectl
 We can also additionally create self-hosted runner to run the github workflow actions or create a jenkins pipeline for the same steps.
 Security enhancement can be creating an azure keyvault and key generation for the Jenkins VM. As well as credentials for Jenkins admin.
 We can also create service principal using terraform to assign azure role.
+We can also further enhance the terraform pipeline to include tests and also modify it to ensure that the terraform apply stage is run when the code is merged to main after PR process with review from leads and Infosec to ensure that all firewall and networking rules are in adherance to security policy and do not allow any unwanted traffic.
